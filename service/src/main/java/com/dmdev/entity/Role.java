@@ -1,6 +1,6 @@
 package com.dmdev.entity;
 
 public enum Role {
-     ADMIN,
-     BUILDER
+    ADMIN,
+    BUILDER
 }

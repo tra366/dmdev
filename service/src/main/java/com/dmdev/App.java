@@ -1,31 +1,36 @@
 package com.dmdev;
 
-import com.dmdev.entity.Role;
+import com.dmdev.entity.Chart;
 import com.dmdev.entity.User;
 import com.dmdev.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.hibernate.graph.GraphSemantic;
 
-/**
- * Hello world!
- */
+import java.util.Map;
+
 public class App {
     public static void main(String[] args) {
-        User user = User.builder()
-                .username("IPetrov")
-                .firstName("Ivan")
-                .lastName("Ivanov")
-                .role(Role.BUILDER)
-                .password("123")
-                .build();
-        try (SessionFactory sessionFactory = HibernateUtil.buildSessionFactory()) {
-            try (Session session1 = sessionFactory.openSession()) {
-                Transaction transaction = session1.beginTransaction();
-                session1.saveOrUpdate(user);
-                User myUser = session1.get(User.class,user.getId());
-                session1.getTransaction().commit();
-            }
+
+        try (SessionFactory sessionFactory = HibernateUtil.buildSessionFactory();
+             // DataImportTestUtil.importData(sessionFactory);
+             Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+
+            var charts = session.createQuery("select ch from Chart ch", Chart.class)
+                    .list();
+            charts.forEach(chart -> System.out.println(chart.getSerieses().size()));
+
+
+
+            Map<String, Object> properties = Map.of(
+                    GraphSemantic.LOAD.getJpaHintName(), session.getEntityGraph("withSeriesAndUser")
+            );
+
+            var chart = session.find(Chart.class, 1, properties);
+            System.out.println(chart.getSerieses().size());
+
+            session.getTransaction().commit();
         }
 
     }
