@@ -6,7 +6,8 @@ import com.dmdev.service.dto.UserDto;
 public class UserService {
 
     private General general = new General();
-    public UserDto getUser(String name){
+
+    public UserDto getUser(String name) {
         return null;
     }
 }

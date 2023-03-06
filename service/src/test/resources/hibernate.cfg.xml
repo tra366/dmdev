@@ -17,12 +17,8 @@
         <mapping class="com.dmdev.entity.Chart"/>
         <mapping class="com.dmdev.entity.Matrix"/>
         <mapping class="com.dmdev.entity.NameSeries"/>
-        <mapping class="com.dmdev.entity.Object"/>
-        <mapping class="com.dmdev.entity.PeriodReport"/>
         <mapping class="com.dmdev.entity.Series"/>
         <mapping class="com.dmdev.entity.Source"/>
-        <mapping class="com.dmdev.entity.TypeBuilding"/>
-        <mapping class="com.dmdev.entity.TypeReport"/>
         <mapping class="com.dmdev.entity.TypeSeries"/>
         <mapping class="com.dmdev.entity.User"/>
         <!-- DB schema will be updated if needed -->
