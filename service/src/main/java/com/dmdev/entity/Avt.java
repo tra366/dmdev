@@ -26,8 +26,8 @@ import java.util.List;
 @EqualsAndHashCode(exclude = "aves")
 @Builder
 @Entity
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"resource", "name"})})
-public class Avt {
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"resource", "name"}))
+public class Avt implements BaseEntity<Integer> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

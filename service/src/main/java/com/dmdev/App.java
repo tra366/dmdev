@@ -1,19 +1,14 @@
 package com.dmdev;
 
-import com.dmdev.entity.Chart;
-import com.dmdev.entity.User;
-import com.dmdev.util.HibernateUtil;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.graph.GraphSemantic;
-
-import java.util.Map;
-
 public class App {
     public static void main(String[] args) {
+/*        SessionFactory sessionFactory = HibernateUtil.buildSessionFactory();
+        DataImportTestUtil.importData(sessionFactory);*/
 
+/*
         try (SessionFactory sessionFactory = HibernateUtil.buildSessionFactory();
-             // DataImportTestUtil.importData(sessionFactory);
+
+
              Session session = sessionFactory.openSession()) {
             session.beginTransaction();
 
@@ -32,6 +27,7 @@ public class App {
 
             session.getTransaction().commit();
         }
+*/
 
     }
 }

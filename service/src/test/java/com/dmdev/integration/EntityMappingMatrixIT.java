@@ -2,11 +2,14 @@ package com.dmdev.integration;
 
 import com.dmdev.GetEntity;
 import com.dmdev.entity.Matrix;
+import org.hibernate.Session;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class EntityMappingMatrixIT extends IntegrationTestBase {
+
+    private Session session = getSession();
 
     @Test
     void addMatrix() {

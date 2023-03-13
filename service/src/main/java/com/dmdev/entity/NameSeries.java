@@ -15,9 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -26,7 +24,7 @@ import java.util.Set;
 @EqualsAndHashCode(exclude = {"matrixs", "serieses"})
 @Builder
 @Entity
-public class NameSeries {
+public class NameSeries implements BaseEntity<Integer> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,7 +35,7 @@ public class NameSeries {
 
     @Builder.Default
     @OneToMany(mappedBy = "nameSeries", cascade = CascadeType.ALL)
-    private List<Series> serieses= new ArrayList<>();
+    private List<Series> serieses = new ArrayList<>();
 
     @OneToMany(mappedBy = "nameSeries", cascade = CascadeType.ALL)
     private List<Matrix> matrixs = new ArrayList<>();

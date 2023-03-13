@@ -1,5 +1,6 @@
 package com.dmdev.dao;
 
+import com.dmdev.entity.Chart_;
 import com.dmdev.entity.TypeBuilding;
 import com.dmdev.entity.User;
 import lombok.AccessLevel;
@@ -12,11 +13,12 @@ import java.util.List;
 public class UserDao {
 
     private static final UserDao INSTANCE = new UserDao();
+
     public static UserDao getInstance() {
         return INSTANCE;
     }
 
-    public List<User> getAll(Session session){
+    public List<User> getAll(Session session) {
 
         var cb = session.getCriteriaBuilder();
         var criteria = cb.createQuery(User.class);
@@ -42,7 +44,7 @@ public class UserDao {
                 .list();
     }
 
-    public List<User> getByTypeBuilding(Session session, String typeBuilding) {
+    public List<User> getByTypeBuilding(Session session, TypeBuilding typeBuilding) {
         var cb = session.getCriteriaBuilder();
 
         var criteria = cb.createQuery(User.class);
@@ -50,7 +52,7 @@ public class UserDao {
         var charts = user.join("charts");
 
         criteria.select(user).where(
-                cb.equal(charts.get("typeBuilding"), TypeBuilding.valueOf(typeBuilding))
+                cb.equal(charts.get(Chart_.TYPE_BUILDING), typeBuilding)
         );
 
         return session.createQuery(criteria)
