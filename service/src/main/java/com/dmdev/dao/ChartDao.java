@@ -1,28 +1,24 @@
 package com.dmdev.dao;
 
+import com.dmdev.dto.ChartDto;
 import com.dmdev.entity.Chart;
-import com.dmdev.entity.ObjectBuilding;
-import com.dmdev.entity.PeriodReport;
-import com.dmdev.entity.TypeBuilding;
-import com.dmdev.entity.TypeReport;
-import com.dmdev.entity.User;
+import com.dmdev.entity.Chart_;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.hibernate.Session;
 
 import javax.persistence.criteria.Predicate;
-import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ChartDao {
-
     private static final ChartDao INSTANCE = new ChartDao();
+
     public static ChartDao getInstance() {
         return INSTANCE;
     }
 
-    public List<Chart> getAll(Session session){
+    public List<Chart> getAll(Session session) {
 
         var cb = session.getCriteriaBuilder();
         var criteria = cb.createQuery(Chart.class);
@@ -64,29 +60,40 @@ public class ChartDao {
                 .list();
     }
 
-    public List<Chart> getByParams(Session session, String typeReport, String periodReport, String objectBuilding, String typeBuilding) {
+    public List<Chart> getByParams(Session session, ChartDto chartDto) {
         var cb = session.getCriteriaBuilder();
 
         var criteria = cb.createQuery(Chart.class);
         var chart = criteria.from(Chart.class);
-        List<Predicate> predicates = new ArrayList<>();
-        if (typeReport != null) {
-            predicates.add(cb.equal(chart.get("typeReport"), TypeReport.valueOf(typeReport)));
+
+        var citeriaPredicates = CriteriaPredicate.builder()
+                .add(chartDto.typeReport, it -> cb.equal(chart.get(Chart_.typeReport), it))
+                .add(chartDto.periodReport, it -> cb.equal(chart.get(Chart_.periodReport), it))
+                .add(chartDto.objectBuilding, it -> cb.equal(chart.get(Chart_.objectBuilding), it))
+                .add(chartDto.typeBuilding, it -> cb.equal(chart.get(Chart_.typeBuilding), it))
+                .build();
+
+/*        List<Predicate> predicates = new ArrayList<>();
+        if (chartDto.typeReport != null) {
+            predicates.add(cb.equal(chart.get("typeReport"), chartDto.typeReport));
         }
-        if (periodReport != null) {
-            predicates.add(cb.equal(chart.get("periodReport"), PeriodReport.valueOf(periodReport)));
+        if (chartDto.periodReport != null) {
+            predicates.add(cb.equal(chart.get("periodReport"), chartDto.periodReport));
         }
-        if (objectBuilding != null) {
-            predicates.add(cb.equal(chart.get("objectBuilding"), ObjectBuilding.valueOf(objectBuilding)));
+        if (chartDto.objectBuilding != null) {
+            predicates.add(cb.equal(chart.get("objectBuilding"), chartDto.objectBuilding));
         }
-        if (typeBuilding != null) {
-            predicates.add(cb.equal(chart.get("typeBuilding"), TypeBuilding.valueOf(typeBuilding)));
+        if (chartDto.typeBuilding != null) {
+            predicates.add(cb.equal(chart.get("typeBuilding"), chartDto.typeBuilding));
         }
 
         criteria.select(chart).where(
                 predicates.toArray(Predicate[]::new)
-        );
+        );*/
 
+        criteria.select(chart).where(
+                citeriaPredicates.toArray(Predicate[]::new)
+        );
 
         return session.createQuery(criteria)
                 .list();

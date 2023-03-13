@@ -24,7 +24,7 @@ import javax.persistence.ManyToOne;
 @EqualsAndHashCode(exclude = {"nameSeries", "source"})
 @Builder
 @Entity
-public class Matrix {
+public class Matrix implements BaseEntity<Integer> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

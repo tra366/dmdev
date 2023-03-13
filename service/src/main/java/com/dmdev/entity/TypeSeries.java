@@ -24,7 +24,7 @@ import java.util.List;
 @EqualsAndHashCode(exclude = "serieses")
 @Builder
 @Entity
-public class TypeSeries {
+public class TypeSeries implements BaseEntity<Integer> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -25,7 +25,7 @@ import javax.persistence.UniqueConstraint;
 @Builder
 @Entity
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"avt_id", "chart_id", "series_id"})})
-public class Av {
+public class Av implements BaseEntity<Integer> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

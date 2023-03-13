@@ -9,7 +9,6 @@ import lombok.ToString;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -27,7 +26,7 @@ import java.util.List;
 @EqualsAndHashCode(exclude = {"chart", "typeSeries", "nameSeries", "source", "aves"})
 @Builder
 @Entity
-public class Series {
+public class Series implements BaseEntity<Integer> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

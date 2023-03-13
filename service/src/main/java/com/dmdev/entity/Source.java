@@ -24,7 +24,7 @@ import java.util.List;
 @EqualsAndHashCode(exclude = {"charts", "serieses", "matrixs"})
 @Builder
 @Entity
-public class Source {
+public class Source implements BaseEntity<Integer> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

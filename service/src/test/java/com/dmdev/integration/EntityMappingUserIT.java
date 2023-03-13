@@ -2,11 +2,15 @@ package com.dmdev.integration;
 
 import com.dmdev.GetEntity;
 import com.dmdev.entity.User;
+import org.hibernate.Session;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class EntityMappingUserIT extends IntegrationTestBase {
+
+    private Session session = getSession();
+
     @Test
     void addUser() {
         User newUser = GetEntity.getUser();
