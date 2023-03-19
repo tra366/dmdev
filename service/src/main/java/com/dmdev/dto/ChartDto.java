@@ -11,10 +11,10 @@ import lombok.Value;
 @Value
 @Builder
 public class ChartDto {
-    public String name;
-    public TypeReport typeReport;
-    public PeriodReport periodReport;
-    public ObjectBuilding objectBuilding;
-    public TypeBuilding typeBuilding;
-    public Source source;
+    String name;
+    TypeReport typeReport;
+    PeriodReport periodReport;
+    ObjectBuilding objectBuilding;
+    TypeBuilding typeBuilding;
+    Source source;
 }

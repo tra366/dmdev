@@ -9,17 +9,14 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class MatrixDaoTest extends IntegrationTestBase {
+class MatrixDaoTest extends IntegrationTestBase {
 
     @Test
     void save() {
-        MatrixRepository matrixRepository = new MatrixRepository(getSession());
-        SourceRepository sourceRepository = new SourceRepository(getSession());
-        NameSeriesRepository nameSeriesRepository = new NameSeriesRepository((getSession()));
         Matrix newMatrix = GetEntity.getMatrix("newMatrix");
-        nameSeriesRepository.save(newMatrix.getNameSeries());
-        sourceRepository.save(newMatrix.getSource());
-        matrixRepository.save(newMatrix);
+        getNameSeriesRepository().save(newMatrix.getNameSeries());
+        getSourceRepository().save(newMatrix.getSource());
+        getMatrixRepository().save(newMatrix);
         getSession().clear();
 
         Matrix actualMatrix = getSession().get(Matrix.class, newMatrix.getId());
@@ -29,32 +26,25 @@ public class MatrixDaoTest extends IntegrationTestBase {
 
     @Test
     void findById() {
-        MatrixRepository matrixRepository = new MatrixRepository(getSession());
-        SourceRepository sourceRepository = new SourceRepository(getSession());
-        NameSeriesRepository nameSeriesRepository = new NameSeriesRepository((getSession()));
         Matrix newMatrix = GetEntity.getMatrix("newMatrix");
-        nameSeriesRepository.save(newMatrix.getNameSeries());
-        sourceRepository.save(newMatrix.getSource());
-        matrixRepository.save(newMatrix);
+        getNameSeriesRepository().save(newMatrix.getNameSeries());
+        getSourceRepository().save(newMatrix.getSource());
+        getMatrixRepository().save(newMatrix);
         getSession().clear();
 
-        Optional<Matrix> actualMatrix = matrixRepository.findById(newMatrix.getId());
+        Optional<Matrix> actualMatrix = getMatrixRepository().findById(newMatrix.getId());
 
         assertThat(actualMatrix).isNotNull();
     }
 
     @Test
     void update() {
-        MatrixRepository matrixRepository = new MatrixRepository(getSession());
-        SourceRepository sourceRepository = new SourceRepository(getSession());
-        NameSeriesRepository nameSeriesRepository = new NameSeriesRepository((getSession()));
         Matrix newMatrix = GetEntity.getMatrix("newMatrix2");
-        nameSeriesRepository.save(newMatrix.getNameSeries());
-        sourceRepository.save(newMatrix.getSource());
-        matrixRepository.save(newMatrix);
+        getNameSeriesRepository().save(newMatrix.getNameSeries());
+        getSourceRepository().save(newMatrix.getSource());
+        getMatrixRepository().save(newMatrix);
         newMatrix.setSqlQuery("newSqlQuery");
-        matrixRepository.update(newMatrix);
-        getSession().flush();
+        getMatrixRepository().update(newMatrix);
         getSession().clear();
 
         Matrix actualMatrix = getSession().get(Matrix.class, newMatrix.getId());
@@ -64,14 +54,11 @@ public class MatrixDaoTest extends IntegrationTestBase {
 
     @Test
     void delete() {
-        MatrixRepository matrixRepository = new MatrixRepository(getSession());
-        SourceRepository sourceRepository = new SourceRepository(getSession());
-        NameSeriesRepository nameSeriesRepository = new NameSeriesRepository((getSession()));
         Matrix newMatrix = GetEntity.getMatrix("newMatrix3");
-        nameSeriesRepository.save(newMatrix.getNameSeries());
-        sourceRepository.save(newMatrix.getSource());
-        matrixRepository.save(newMatrix);
-        matrixRepository.delete(newMatrix);
+        getNameSeriesRepository().save(newMatrix.getNameSeries());
+        getSourceRepository().save(newMatrix.getSource());
+        getMatrixRepository().save(newMatrix);
+        getMatrixRepository().delete(newMatrix);
         getSession().clear();
 
         Matrix actualMatrix = getSession().get(Matrix.class, newMatrix.getId());

@@ -33,6 +33,7 @@ public class RepositoryBase<K extends Serializable, E extends BaseEntity<K>> imp
     @Override
     public void update(E entity) {
         entityManger.merge(entity);
+        entityManger.flush();
     }
 
 

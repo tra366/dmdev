@@ -1,9 +1,13 @@
 package com.dmdev.integration;
 
-import com.dmdev.dao.SeriesDao;
-import com.dmdev.dao.UserDao;
-import com.dmdev.util.DataImportTestUtil;
-import com.dmdev.util.HibernateTestUtil;
+import com.dmdev.dao.ChartRepository;
+import com.dmdev.dao.MatrixRepository;
+import com.dmdev.dao.NameSeriesRepository;
+import com.dmdev.dao.SeriesRepository;
+import com.dmdev.dao.SourceRepository;
+import com.dmdev.dao.TypeSeriesRepository;
+import com.dmdev.dao.UserRepository;
+import com.dmdev.util.config.*;
 import lombok.Getter;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -12,8 +16,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInstance;
-
-import java.lang.reflect.Proxy;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 
@@ -24,16 +27,34 @@ public abstract class IntegrationTestBase {
     @Getter
     private static Session session;
     @Getter
-    private UserDao myDao = UserDao.getInstance();
+    private static UserRepository userRepository;
     @Getter
-    private SeriesDao seriesDao = SeriesDao.getInstance();
+    private static SeriesRepository seriesRepository;
+    @Getter
+    private static MatrixRepository matrixRepository;
+    @Getter
+    private static ChartRepository chartRepository;
+    @Getter
+    private static SourceRepository sourceRepository;
+    @Getter
+    private static NameSeriesRepository nameSeriesRepository;
+    @Getter
+    private static TypeSeriesRepository typeSeriesRepository;
 
     @BeforeAll
     static void init() {
-        sessionFactory = HibernateTestUtil.buildSessionFactory();
-        DataImportTestUtil.importData(sessionFactory);
-        session = (Session) Proxy.newProxyInstance(SessionFactory.class.getClassLoader(), new Class[]{Session.class},
-                (proxy, method, args1) -> method.invoke(sessionFactory.getCurrentSession(), args1));
+        var context = new AnnotationConfigApplicationContext();
+        context.register(ApplicationConfiguration.class);
+        context.refresh();
+        session = context.getBean(Session.class);
+        sessionFactory = session.getSessionFactory();
+        userRepository = context.getBean(UserRepository.class);
+        seriesRepository = context.getBean(SeriesRepository.class);
+        matrixRepository = context.getBean(MatrixRepository.class);
+        chartRepository = context.getBean(ChartRepository.class);
+        sourceRepository = context.getBean(SourceRepository.class);
+        nameSeriesRepository = context.getBean(NameSeriesRepository.class);
+        typeSeriesRepository = context.getBean(TypeSeriesRepository.class);
     }
 
     @AfterAll
@@ -43,14 +64,12 @@ public abstract class IntegrationTestBase {
 
     @BeforeEach
     void transactionStart() {
-        //       session = sessionFactory.openSession();
         session.beginTransaction();
     }
 
     @AfterEach
     void transactionRollback() {
         session.getTransaction().rollback();
-        //      session.close();
     }
 
 }

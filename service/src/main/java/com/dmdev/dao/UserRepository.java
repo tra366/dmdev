@@ -3,25 +3,20 @@ package com.dmdev.dao;
 import com.dmdev.entity.Chart_;
 import com.dmdev.entity.TypeBuilding;
 import com.dmdev.entity.User;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
+@Component
 public class UserRepository extends RepositoryBase<Integer, User> {
+
     public UserRepository(EntityManager entityManger) {
         super(User.class, entityManger);
     }
 
     public List<User> getAll() {
-
-        var cb = getEntityManger().getCriteriaBuilder();
-        var criteria = cb.createQuery(User.class);
-        var user = criteria.from(User.class);
-
-        criteria.select(user);
-
-        return getEntityManger().createQuery(criteria)
-                .getResultList();
+        return findAll();
     }
 
     public List<User> getByUsername(String username) {
