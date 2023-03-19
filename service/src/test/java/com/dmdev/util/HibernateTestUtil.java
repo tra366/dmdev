@@ -23,4 +23,6 @@ public class HibernateTestUtil {
 
         return configuration.buildSessionFactory();
     }
+
+
 }

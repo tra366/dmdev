@@ -17,19 +17,16 @@ import java.util.Optional;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ChartDaoTest extends IntegrationTestBase {
+class ChartDaoTest extends IntegrationTestBase {
 
     @Test
     void save() {
-        ChartRepository chartRepository = new ChartRepository(getSession());
-        SourceRepository sourceRepository = new SourceRepository(getSession());
-        UserRepository userRepository = new UserRepository(getSession());
         User user = GetEntity.getUser("UUser1");
         Chart chart = GetEntity.getChart("myFirstChart");
-        sourceRepository.save(chart.getSource());
-        userRepository.save(user);
+        getSourceRepository().save(chart.getSource());
+        getUserRepository().save(user);
         chart.setOwner(user);
-        chartRepository.save(chart);
+        getChartRepository().save(chart);
         getSession().clear();
 
         Chart actualChart = getSession().get(Chart.class, chart.getId());
@@ -39,20 +36,16 @@ public class ChartDaoTest extends IntegrationTestBase {
 
     @Test
     void update() {
-        ChartRepository chartRepository = new ChartRepository(getSession());
-        SourceRepository sourceRepository = new SourceRepository(getSession());
-        UserRepository userRepository = new UserRepository(getSession());
         User user = GetEntity.getUser("UUser1");
         Chart chart = GetEntity.getChart("mySecondChart");
-        sourceRepository.save(chart.getSource());
-        userRepository.save(user);
+        getSourceRepository().save(chart.getSource());
+        getUserRepository().save(user);
         chart.setOwner(user);
-        chartRepository.save(chart);
+        getChartRepository().save(chart);
         User user1 = GetEntity.getUser("UUser2");
-        userRepository.save(user1);
+        getUserRepository().save(user1);
         chart.setOwner(user1);
-        chartRepository.update(chart);
-        getSession().flush();
+        getChartRepository().update(chart);
         getSession().clear();
 
         Chart actualChart = getSession().get(Chart.class, chart.getId());
@@ -62,34 +55,28 @@ public class ChartDaoTest extends IntegrationTestBase {
 
     @Test
     void findById() {
-        ChartRepository chartRepository = new ChartRepository(getSession());
-        SourceRepository sourceRepository = new SourceRepository(getSession());
-        UserRepository userRepository = new UserRepository(getSession());
         User user = GetEntity.getUser("UUser3");
         Chart chart = GetEntity.getChart("myThirdChart");
-        sourceRepository.save(chart.getSource());
-        userRepository.save(user);
+        getSourceRepository().save(chart.getSource());
+        getUserRepository().save(user);
         chart.setOwner(user);
-        chartRepository.save(chart);
+        getChartRepository().save(chart);
         getSession().clear();
 
-        Optional<Chart> findChart = chartRepository.findById(chart.getId());
+        Optional<Chart> findChart = getChartRepository().findById(chart.getId());
 
         assertThat(findChart).isNotNull();
     }
 
     @Test
     void delete() {
-        ChartRepository chartRepository = new ChartRepository(getSession());
-        SourceRepository sourceRepository = new SourceRepository(getSession());
-        UserRepository userRepository = new UserRepository(getSession());
         User user = GetEntity.getUser("UUser4");
         Chart chart = GetEntity.getChart("myFourthChart");
-        sourceRepository.save(chart.getSource());
-        userRepository.save(user);
+        getSourceRepository().save(chart.getSource());
+        getUserRepository().save(user);
         chart.setOwner(user);
-        chartRepository.save(chart);
-        chartRepository.delete(chart);
+        getChartRepository().save(chart);
+        getChartRepository().delete(chart);
         getSession().clear();
 
         Chart actualChart = getSession().get(Chart.class, chart.getId());
@@ -99,9 +86,7 @@ public class ChartDaoTest extends IntegrationTestBase {
 
     @Test
     void getAll() {
-        ChartRepository chartRepository = new ChartRepository(getSession());
-
-        List<Chart> results = chartRepository.getAll();
+        List<Chart> results = getChartRepository().getAll();
 
         assertThat(results).hasSize(3);
 
@@ -111,9 +96,7 @@ public class ChartDaoTest extends IntegrationTestBase {
 
     @Test
     void getByUsername() {
-        ChartRepository chartRepository = new ChartRepository(getSession());
-
-        List<Chart> results = chartRepository.getByUsername("PPetrov");
+        List<Chart> results = getChartRepository().getByUsername("PPetrov");
 
         assertThat(results).hasSize(1);
         assertThat(results.get(0).getOwner().getUsername()).isEqualTo("PPetrov");
@@ -121,9 +104,7 @@ public class ChartDaoTest extends IntegrationTestBase {
 
     @Test
     void getByNameSeries() {
-        ChartRepository chartRepository = new ChartRepository(getSession());
-
-        List<Chart> results = chartRepository.getByNameSeries("Plan");
+        List<Chart> results = getChartRepository().getByNameSeries("Plan");
 
         assertThat(results).hasSize(2);
 
@@ -133,8 +114,6 @@ public class ChartDaoTest extends IntegrationTestBase {
 
     @Test
     void getByParams() {
-        ChartRepository chartRepository = new ChartRepository(getSession());
-
         ChartDto chartDto = ChartDto.builder()
                 .objectBuilding(ObjectBuilding.GF)
                 .periodReport(PeriodReport.WEEK)
@@ -143,7 +122,7 @@ public class ChartDaoTest extends IntegrationTestBase {
                 .name("queryTest")
                 .build();
 
-        List<Chart> results = chartRepository.getByParams(chartDto);
+        List<Chart> results = getChartRepository().getByParams(chartDto);
 
         assertThat(results).hasSize(1);
 

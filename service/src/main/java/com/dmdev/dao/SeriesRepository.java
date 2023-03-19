@@ -2,6 +2,7 @@ package com.dmdev.dao;
 
 import com.dmdev.entity.Series;
 import com.querydsl.jpa.impl.JPAQuery;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
 import static com.dmdev.entity.QChart.chart;
 import static com.dmdev.entity.QSeries.series;
 
+@Component
 public class SeriesRepository extends RepositoryBase<Integer, Series> {
 
     public SeriesRepository(EntityManager entityManger) {
@@ -16,15 +18,10 @@ public class SeriesRepository extends RepositoryBase<Integer, Series> {
     }
 
     public List<Series> getAll() {
-
-        return new JPAQuery<Series>(getEntityManger())
-                .select(series)
-                .from(series)
-                .fetch();
+        return findAll();
     }
 
     public List<Series> getByChartName(String chartName) {
-
         return new JPAQuery<Series>(getEntityManger())
                 .select(series)
                 .from(series)
@@ -33,11 +30,9 @@ public class SeriesRepository extends RepositoryBase<Integer, Series> {
                 .fetch();
     }
 
-    public List<Series> getByNameSeries(String nameSeries1, String nameSeries2) {
-
+    public List<Series> getByNameSeries(List<String> nameSeries) {
         var predicate = QPredicate.builder()
-                .add(nameSeries1, series.nameSeries.name::eq)
-                .add(nameSeries2, series.nameSeries.name::eq)
+                .add(nameSeries, series.nameSeries.name::in)
                 .buildOr();
 
 

@@ -4,11 +4,13 @@ import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Predicate;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
+@Component
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class QPredicate {
 

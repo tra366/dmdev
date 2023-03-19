@@ -3,11 +3,16 @@ package com.dmdev.dao;
 import com.dmdev.dto.ChartDto;
 import com.dmdev.entity.Chart;
 import com.dmdev.entity.Chart_;
+import com.dmdev.entity.NameSeries_;
+import com.dmdev.entity.Series_;
+import com.dmdev.entity.User_;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.Predicate;
 import java.util.List;
 
+@Component
 public class ChartRepository extends RepositoryBase<Integer, Chart> {
 
     public ChartRepository(EntityManager entityManger) {
@@ -15,15 +20,7 @@ public class ChartRepository extends RepositoryBase<Integer, Chart> {
     }
 
     public List<Chart> getAll() {
-
-        var cb = getEntityManger().getCriteriaBuilder();
-        var criteria = cb.createQuery(Chart.class);
-        var chart = criteria.from(Chart.class);
-
-        criteria.select(chart);
-
-        return getEntityManger().createQuery(criteria)
-                .getResultList();
+        return findAll();
     }
 
     public List<Chart> getByUsername(String username) {
@@ -31,10 +28,10 @@ public class ChartRepository extends RepositoryBase<Integer, Chart> {
 
         var criteria = cb.createQuery(Chart.class);
         var chart = criteria.from(Chart.class);
-        var user = chart.join("owner");
+        var user = chart.join(Chart_.OWNER);
 
         criteria.select(chart).where(
-                cb.equal(user.get("username"), username)
+                cb.equal(user.get(User_.USERNAME), username)
         );
 
         return getEntityManger().createQuery(criteria)
@@ -46,10 +43,10 @@ public class ChartRepository extends RepositoryBase<Integer, Chart> {
 
         var criteria = cb.createQuery(Chart.class);
         var chart = criteria.from(Chart.class);
-        var serieses = chart.join("serieses");
+        var serieses = chart.join(Chart_.SERIESES);
 
         criteria.select(chart).where(
-                cb.equal(serieses.get("nameSeries").get("name"), nameSeries)
+                cb.equal(serieses.get(Series_.NAME_SERIES).get(NameSeries_.NAME), nameSeries)
         );
 
         return getEntityManger().createQuery(criteria)
@@ -63,10 +60,10 @@ public class ChartRepository extends RepositoryBase<Integer, Chart> {
         var chart = criteria.from(Chart.class);
 
         var citeriaPredicates = CriteriaPredicate.builder()
-                .add(chartDto.typeReport, it -> cb.equal(chart.get(Chart_.typeReport), it))
-                .add(chartDto.periodReport, it -> cb.equal(chart.get(Chart_.periodReport), it))
-                .add(chartDto.objectBuilding, it -> cb.equal(chart.get(Chart_.objectBuilding), it))
-                .add(chartDto.typeBuilding, it -> cb.equal(chart.get(Chart_.typeBuilding), it))
+                .add(chartDto.getTypeReport(), it -> cb.equal(chart.get(Chart_.typeReport), it))
+                .add(chartDto.getPeriodReport(), it -> cb.equal(chart.get(Chart_.periodReport), it))
+                .add(chartDto.getObjectBuilding(), it -> cb.equal(chart.get(Chart_.objectBuilding), it))
+                .add(chartDto.getTypeBuilding(), it -> cb.equal(chart.get(Chart_.typeBuilding), it))
                 .build();
 
         criteria.select(chart).where(

@@ -12,13 +12,13 @@ import java.util.Optional;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class UserDaoTest extends IntegrationTestBase {
+class UserDaoTest extends IntegrationTestBase {
+
 
     @Test
     void save() {
-        UserRepository userRepository = new UserRepository(getSession());
         User user = GetEntity.getUser("UUser1");
-        userRepository.save(user);
+        getUserRepository().save(user);
         getSession().clear();
 
         User actualUser = getSession().get(User.class, user.getId());
@@ -28,12 +28,10 @@ public class UserDaoTest extends IntegrationTestBase {
 
     @Test
     void update() {
-        UserRepository userRepository = new UserRepository(getSession());
         User user = GetEntity.getUser("APetrov");
-        userRepository.save(user);
+        getUserRepository().save(user);
         user.setLastName("NewAPetrov");
-        userRepository.update(user);
-        getSession().flush();
+        getUserRepository().update(user);
         getSession().clear();
 
         User actualUser = getSession().get(User.class, user.getId());
@@ -43,22 +41,20 @@ public class UserDaoTest extends IntegrationTestBase {
 
     @Test
     void findById() {
-        UserRepository userRepository = new UserRepository(getSession());
         User user = GetEntity.getUser("UUser2");
-        userRepository.save(user);
+        getUserRepository().save(user);
         getSession().clear();
 
-        Optional<User> findChart = userRepository.findById(user.getId());
+        Optional<User> findChart = getUserRepository().findById(user.getId());
 
         assertThat(findChart).isNotNull();
     }
 
     @Test
     void delete() {
-        UserRepository userRepository = new UserRepository(getSession());
         User user = GetEntity.getUser("UUser3");
-        userRepository.save(user);
-        userRepository.delete(user);
+        getUserRepository().save(user);
+        getUserRepository().delete(user);
         getSession().clear();
 
         User actualUser = getSession().get(User.class, user.getId());
@@ -68,8 +64,7 @@ public class UserDaoTest extends IntegrationTestBase {
 
     @Test
     void getAll() {
-        UserRepository userRepository = new UserRepository(getSession());
-        List<User> results = userRepository.getAll();
+        List<User> results = getUserRepository().getAll();
 
         assertThat(results).hasSize(3);
 
@@ -79,8 +74,7 @@ public class UserDaoTest extends IntegrationTestBase {
 
     @Test
     void getByUsername() {
-        UserRepository userRepository = new UserRepository(getSession());
-        List<User> results = userRepository.getByUsername("PPetrov");
+        List<User> results = getUserRepository().getByUsername("PPetrov");
 
         assertThat(results).hasSize(1);
         assertThat(results.get(0).getUsername()).isEqualTo("PPetrov");
@@ -88,8 +82,7 @@ public class UserDaoTest extends IntegrationTestBase {
 
     @Test
     void getByTypeBuilding() {
-        UserRepository userRepository = new UserRepository(getSession());
-        List<User> results = userRepository.getByTypeBuilding(TypeBuilding.GF_RT_CS);
+        List<User> results = getUserRepository().getByTypeBuilding(TypeBuilding.GF_RT_CS);
 
         assertThat(results).hasSize(2);
 

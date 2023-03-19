@@ -6,31 +6,26 @@ import com.dmdev.entity.User;
 import com.dmdev.integration.IntegrationTestBase;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class SeriesDaoTest extends IntegrationTestBase {
+class SeriesDaoTest extends IntegrationTestBase {
     @Test
     void save() {
-        SeriesRepository seriesRepository = new SeriesRepository(getSession());
-        SourceRepository sourceRepository = new SourceRepository(getSession());
-        NameSeriesRepository nameSeriesRepository = new NameSeriesRepository((getSession()));
-        TypeSeriesRepository typeSeriesRepository = new TypeSeriesRepository((getSession()));
-        ChartRepository chartRepository = new ChartRepository(getSession());
-        UserRepository userRepository = new UserRepository(getSession());
         User user = GetEntity.getUser("UUser1");
         Series newSeries = GetEntity.getSeries("newSeries");
-        sourceRepository.save(newSeries.getChart().getSource());
-        sourceRepository.save(newSeries.getSource());
-        nameSeriesRepository.save(newSeries.getNameSeries());
-        typeSeriesRepository.save(newSeries.getTypeSeries());
-        userRepository.save(user);
+        getSourceRepository().save(newSeries.getChart().getSource());
+        getSourceRepository().save(newSeries.getSource());
+        getNameSeriesRepository().save(newSeries.getNameSeries());
+        getTypeSeriesRepository().save(newSeries.getTypeSeries());
+        getUserRepository().save(user);
         newSeries.getChart().setOwner(user);
-        chartRepository.save(newSeries.getChart());
-        seriesRepository.save(newSeries);
+        getChartRepository().save(newSeries.getChart());
+        getSeriesRepository().save(newSeries);
         getSession().clear();
 
         Series actualSeries = getSession().get(Series.class, newSeries.getId());
@@ -40,50 +35,37 @@ public class SeriesDaoTest extends IntegrationTestBase {
 
     @Test
     void findById() {
-        SeriesRepository seriesRepository = new SeriesRepository(getSession());
-        SourceRepository sourceRepository = new SourceRepository(getSession());
-        NameSeriesRepository nameSeriesRepository = new NameSeriesRepository((getSession()));
-        TypeSeriesRepository typeSeriesRepository = new TypeSeriesRepository((getSession()));
-        ChartRepository chartRepository = new ChartRepository(getSession());
-        UserRepository userRepository = new UserRepository(getSession());
         User user = GetEntity.getUser("UUser1");
         Series newSeries = GetEntity.getSeries("newSeries");
-        sourceRepository.save(newSeries.getChart().getSource());
-        sourceRepository.save(newSeries.getSource());
-        nameSeriesRepository.save(newSeries.getNameSeries());
-        typeSeriesRepository.save(newSeries.getTypeSeries());
-        userRepository.save(user);
+        getSourceRepository().save(newSeries.getChart().getSource());
+        getSourceRepository().save(newSeries.getSource());
+        getNameSeriesRepository().save(newSeries.getNameSeries());
+        getTypeSeriesRepository().save(newSeries.getTypeSeries());
+        getUserRepository().save(user);
         newSeries.getChart().setOwner(user);
-        chartRepository.save(newSeries.getChart());
-        seriesRepository.save(newSeries);
+        getChartRepository().save(newSeries.getChart());
+        getSeriesRepository().save(newSeries);
         getSession().clear();
 
-        Optional<Series> actualSeries = seriesRepository.findById(newSeries.getId());
+        Optional<Series> actualSeries = getSeriesRepository().findById(newSeries.getId());
 
         assertThat(actualSeries).isNotNull();
     }
 
     @Test
     void update() {
-        SeriesRepository seriesRepository = new SeriesRepository(getSession());
-        SourceRepository sourceRepository = new SourceRepository(getSession());
-        NameSeriesRepository nameSeriesRepository = new NameSeriesRepository((getSession()));
-        TypeSeriesRepository typeSeriesRepository = new TypeSeriesRepository((getSession()));
-        ChartRepository chartRepository = new ChartRepository(getSession());
-        UserRepository userRepository = new UserRepository(getSession());
         User user = GetEntity.getUser("UUser1");
         Series newSeries = GetEntity.getSeries("newSeries");
-        sourceRepository.save(newSeries.getChart().getSource());
-        sourceRepository.save(newSeries.getSource());
-        nameSeriesRepository.save(newSeries.getNameSeries());
-        typeSeriesRepository.save(newSeries.getTypeSeries());
-        userRepository.save(user);
+        getSourceRepository().save(newSeries.getChart().getSource());
+        getSourceRepository().save(newSeries.getSource());
+        getNameSeriesRepository().save(newSeries.getNameSeries());
+        getTypeSeriesRepository().save(newSeries.getTypeSeries());
+        getUserRepository().save(user);
         newSeries.getChart().setOwner(user);
-        chartRepository.save(newSeries.getChart());
-        seriesRepository.save(newSeries);
+        getChartRepository().save(newSeries.getChart());
+        getSeriesRepository().save(newSeries);
         newSeries.setName("newSeries_Renamed");
-        seriesRepository.update(newSeries);
-        getSession().flush();
+        getSeriesRepository().update(newSeries);
         getSession().clear();
 
         Series actualSeries = getSession().get(Series.class, newSeries.getId());
@@ -93,24 +75,18 @@ public class SeriesDaoTest extends IntegrationTestBase {
 
     @Test
     void delete() {
-        SeriesRepository seriesRepository = new SeriesRepository(getSession());
-        SourceRepository sourceRepository = new SourceRepository(getSession());
-        NameSeriesRepository nameSeriesRepository = new NameSeriesRepository((getSession()));
-        TypeSeriesRepository typeSeriesRepository = new TypeSeriesRepository((getSession()));
-        ChartRepository chartRepository = new ChartRepository(getSession());
-        UserRepository userRepository = new UserRepository(getSession());
         User user = GetEntity.getUser("UUser1");
         Series newSeries = GetEntity.getSeries("newSeries");
-        sourceRepository.save(newSeries.getChart().getSource());
-        sourceRepository.save(newSeries.getSource());
-        nameSeriesRepository.save(newSeries.getNameSeries());
-        typeSeriesRepository.save(newSeries.getTypeSeries());
-        userRepository.save(user);
+        getSourceRepository().save(newSeries.getChart().getSource());
+        getSourceRepository().save(newSeries.getSource());
+        getNameSeriesRepository().save(newSeries.getNameSeries());
+        getTypeSeriesRepository().save(newSeries.getTypeSeries());
+        getUserRepository().save(user);
         newSeries.getChart().setOwner(user);
-        chartRepository.save(newSeries.getChart());
-        seriesRepository.save(newSeries);
+        getChartRepository().save(newSeries.getChart());
+        getSeriesRepository().save(newSeries);
         newSeries.setName("newSeries_Renamed");
-        seriesRepository.delete(newSeries);
+        getSeriesRepository().delete(newSeries);
         getSession().clear();
 
         Series actualSeries = getSession().get(Series.class, newSeries.getId());
@@ -120,8 +96,7 @@ public class SeriesDaoTest extends IntegrationTestBase {
 
     @Test
     void getAll() {
-        SeriesRepository seriesRepository = new SeriesRepository(getSession());
-        List<Series> results = seriesRepository.getAll();
+        List<Series> results = getSeriesRepository().getAll();
 
         assertThat(results).hasSize(6);
 
@@ -131,8 +106,7 @@ public class SeriesDaoTest extends IntegrationTestBase {
 
     @Test
     void getByChartName() {
-        SeriesRepository seriesRepository = new SeriesRepository(getSession());
-        List<Series> results = seriesRepository.getByChartName("DynamicBuilding");
+        List<Series> results = getSeriesRepository().getByChartName("DynamicBuilding");
 
         assertThat(results).hasSize(2);
 
@@ -142,8 +116,7 @@ public class SeriesDaoTest extends IntegrationTestBase {
 
     @Test
     void getByNameSeries() {
-        SeriesRepository seriesRepository = new SeriesRepository(getSession());
-        List<Series> results = seriesRepository.getByNameSeries("Plan", "PlanSmr");
+        List<Series> results = getSeriesRepository().getByNameSeries(Arrays.asList("Plan", "PlanSmr"));
 
         assertThat(results).hasSize(3);
 
