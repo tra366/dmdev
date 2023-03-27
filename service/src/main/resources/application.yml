@@ -1,0 +1,23 @@
+db:
+  username: postgres
+  password: NVolga21
+  driver: PostgresDriver
+  url: bi_reports:5432
+  hosts: localhost,127.0.0.1
+logging:
+  level:
+    root: INFO
+  file:
+    name: dmdev.log
+    path: /
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/bi_reports
+    username: postgres
+    password: NVolga21
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    properties.hibernate:
+      show_sql: true
+      format_sql: true
+      hbm2ddl.auto: validate

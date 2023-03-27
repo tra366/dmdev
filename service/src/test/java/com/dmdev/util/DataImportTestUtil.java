@@ -17,7 +17,6 @@ import lombok.experimental.UtilityClass;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.springframework.stereotype.Component;
 
 @UtilityClass
 public class DataImportTestUtil {
