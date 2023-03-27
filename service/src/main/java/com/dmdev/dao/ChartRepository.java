@@ -6,13 +6,13 @@ import com.dmdev.entity.Chart_;
 import com.dmdev.entity.NameSeries_;
 import com.dmdev.entity.Series_;
 import com.dmdev.entity.User_;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.Predicate;
 import java.util.List;
 
-@Component
+@Repository
 public class ChartRepository extends RepositoryBase<Integer, Chart> {
 
     public ChartRepository(EntityManager entityManger) {

@@ -2,7 +2,7 @@ package com.dmdev.dao;
 
 import com.dmdev.entity.Series;
 import com.querydsl.jpa.impl.JPAQuery;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.List;
 import static com.dmdev.entity.QChart.chart;
 import static com.dmdev.entity.QSeries.series;
 
-@Component
+@Repository
 public class SeriesRepository extends RepositoryBase<Integer, Series> {
 
     public SeriesRepository(EntityManager entityManger) {

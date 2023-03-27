@@ -3,12 +3,12 @@ package com.dmdev.dao;
 import com.dmdev.entity.Chart_;
 import com.dmdev.entity.TypeBuilding;
 import com.dmdev.entity.User;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
-@Component
+@Repository
 public class UserRepository extends RepositoryBase<Integer, User> {
 
     public UserRepository(EntityManager entityManger) {

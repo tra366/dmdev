@@ -4,24 +4,30 @@ import com.dmdev.GetEntity;
 import com.dmdev.entity.TypeBuilding;
 import com.dmdev.entity.User;
 import com.dmdev.integration.IntegrationTestBase;
+import lombok.RequiredArgsConstructor;
+import org.hibernate.Session;
 import org.junit.jupiter.api.Test;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 
-class UserDaoTest extends IntegrationTestBase {
+@RequiredArgsConstructor
+class UserDaoIT extends IntegrationTestBase {
 
+    private final UserRepository userRepository;
+    private final EntityManager entityManager;
 
     @Test
     void save() {
         User user = GetEntity.getUser("UUser1");
-        getUserRepository().save(user);
-        getSession().clear();
+        userRepository.save(user);
+        entityManager.clear();
 
-        User actualUser = getSession().get(User.class, user.getId());
+        User actualUser = ((Session) entityManager).get(User.class, user.getId());
 
         assertThat(actualUser.getId()).isNotNull();
     }
@@ -29,12 +35,12 @@ class UserDaoTest extends IntegrationTestBase {
     @Test
     void update() {
         User user = GetEntity.getUser("APetrov");
-        getUserRepository().save(user);
+        userRepository.save(user);
         user.setLastName("NewAPetrov");
-        getUserRepository().update(user);
-        getSession().clear();
+        userRepository.update(user);
+        entityManager.clear();
 
-        User actualUser = getSession().get(User.class, user.getId());
+        User actualUser = entityManager.find(User.class, user.getId());
 
         assertThat(actualUser.getLastName()).isEqualTo("NewAPetrov");
     }
@@ -42,10 +48,10 @@ class UserDaoTest extends IntegrationTestBase {
     @Test
     void findById() {
         User user = GetEntity.getUser("UUser2");
-        getUserRepository().save(user);
-        getSession().clear();
+        userRepository.save(user);
+        entityManager.clear();
 
-        Optional<User> findChart = getUserRepository().findById(user.getId());
+        Optional<User> findChart = userRepository.findById(user.getId());
 
         assertThat(findChart).isNotNull();
     }
@@ -53,18 +59,18 @@ class UserDaoTest extends IntegrationTestBase {
     @Test
     void delete() {
         User user = GetEntity.getUser("UUser3");
-        getUserRepository().save(user);
-        getUserRepository().delete(user);
-        getSession().clear();
+        userRepository.save(user);
+        userRepository.delete(user);
+        entityManager.clear();
 
-        User actualUser = getSession().get(User.class, user.getId());
+        User actualUser = entityManager.find(User.class, user.getId());
 
         assertThat(actualUser).isNull();
     }
 
     @Test
     void getAll() {
-        List<User> results = getUserRepository().getAll();
+        List<User> results = userRepository.getAll();
 
         assertThat(results).hasSize(3);
 
@@ -74,7 +80,7 @@ class UserDaoTest extends IntegrationTestBase {
 
     @Test
     void getByUsername() {
-        List<User> results = getUserRepository().getByUsername("PPetrov");
+        List<User> results = userRepository.getByUsername("PPetrov");
 
         assertThat(results).hasSize(1);
         assertThat(results.get(0).getUsername()).isEqualTo("PPetrov");
@@ -82,7 +88,7 @@ class UserDaoTest extends IntegrationTestBase {
 
     @Test
     void getByTypeBuilding() {
-        List<User> results = getUserRepository().getByTypeBuilding(TypeBuilding.GF_RT_CS);
+        List<User> results = userRepository.getByTypeBuilding(TypeBuilding.GF_RT_CS);
 
         assertThat(results).hasSize(2);
 

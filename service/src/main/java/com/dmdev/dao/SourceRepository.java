@@ -1,11 +1,11 @@
 package com.dmdev.dao;
 
 import com.dmdev.entity.Source;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 
-@Component
+@Repository
 public class SourceRepository extends RepositoryBase<Integer, Source> {
 
     public SourceRepository(EntityManager entityManger) {
