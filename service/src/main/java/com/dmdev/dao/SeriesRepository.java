@@ -1,46 +1,18 @@
 package com.dmdev.dao;
 
 import com.dmdev.entity.Series;
-import com.querydsl.jpa.impl.JPAQuery;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 
-import static com.dmdev.entity.QChart.chart;
-import static com.dmdev.entity.QSeries.series;
-
 @Repository
-public class SeriesRepository extends RepositoryBase<Integer, Series> {
+public interface SeriesRepository extends JpaRepository<Series, Integer>,
+        FilterSeriesRepository {
+    public List<Series> findAll();
 
-    public SeriesRepository(EntityManager entityManger) {
-        super(Series.class, entityManger);
-    }
+    public List<Series> findByNameSeries(List<String> nameSeries);
 
-    public List<Series> getAll() {
-        return findAll();
-    }
+    public List<Series> findByChartName(String chartName);
 
-    public List<Series> getByChartName(String chartName) {
-        return new JPAQuery<Series>(getEntityManger())
-                .select(series)
-                .from(series)
-                .join(series.chart, chart)
-                .where(chart.name.eq(chartName))
-                .fetch();
-    }
-
-    public List<Series> getByNameSeries(List<String> nameSeries) {
-        var predicate = QPredicate.builder()
-                .add(nameSeries, series.nameSeries.name::in)
-                .buildOr();
-
-
-        return new JPAQuery<Series>(getEntityManger())
-                .select(series)
-                .from(series)
-                .join(series.chart, chart)
-                .where(predicate)
-                .fetch();
-    }
 }

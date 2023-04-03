@@ -4,5 +4,4 @@ spring:
     password: test
   jpa:
     properties.hibernate:
-      hbm2ddl.auto: create-drop
-      current_session_context_class: thread
+      hbm2ddl.auto: update

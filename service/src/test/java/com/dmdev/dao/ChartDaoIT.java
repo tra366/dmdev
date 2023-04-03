@@ -53,7 +53,7 @@ class ChartDaoIT extends IntegrationTestBase {
         User user1 = GetEntity.getUser("UUser2");
         userRepository.save(user1);
         chart.setOwner(user1);
-        chartRepository.update(chart);
+        chartRepository.save(chart);
         entityManager.clear();
 
         Chart actualChart = entityManager.find(Chart.class, chart.getId());
@@ -94,7 +94,7 @@ class ChartDaoIT extends IntegrationTestBase {
 
     @Test
     void getAll() {
-        List<Chart> results = chartRepository.getAll();
+        List<Chart> results = chartRepository.findAll();
 
         assertThat(results).hasSize(3);
 
@@ -104,7 +104,7 @@ class ChartDaoIT extends IntegrationTestBase {
 
     @Test
     void getByUsername() {
-        List<Chart> results = chartRepository.getByUsername("PPetrov");
+        List<Chart> results = chartRepository.findByUsername("PPetrov");
 
         assertThat(results).hasSize(1);
         assertThat(results.get(0).getOwner().getUsername()).isEqualTo("PPetrov");
@@ -112,7 +112,7 @@ class ChartDaoIT extends IntegrationTestBase {
 
     @Test
     void getByNameSeries() {
-        List<Chart> results = chartRepository.getByNameSeries("Plan");
+        List<Chart> results = chartRepository.findByNameSeries("Plan");
 
         assertThat(results).hasSize(2);
 
@@ -130,7 +130,7 @@ class ChartDaoIT extends IntegrationTestBase {
                 .name("queryTest")
                 .build();
 
-        List<Chart> results = chartRepository.getByParams(chartDto);
+        List<Chart> results = chartRepository.findByParams(chartDto);
 
         assertThat(results).hasSize(1);
 

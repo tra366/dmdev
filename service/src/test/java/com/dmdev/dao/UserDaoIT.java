@@ -7,6 +7,8 @@ import com.dmdev.integration.IntegrationTestBase;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
 import org.junit.jupiter.api.Test;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -37,7 +39,8 @@ class UserDaoIT extends IntegrationTestBase {
         User user = GetEntity.getUser("APetrov");
         userRepository.save(user);
         user.setLastName("NewAPetrov");
-        userRepository.update(user);
+        userRepository.save(user);
+        entityManager.flush();
         entityManager.clear();
 
         User actualUser = entityManager.find(User.class, user.getId());
@@ -60,7 +63,7 @@ class UserDaoIT extends IntegrationTestBase {
     void delete() {
         User user = GetEntity.getUser("UUser3");
         userRepository.save(user);
-        userRepository.delete(user);
+        userRepository.delete(user.getId());
         entityManager.clear();
 
         User actualUser = entityManager.find(User.class, user.getId());
@@ -70,25 +73,35 @@ class UserDaoIT extends IntegrationTestBase {
 
     @Test
     void getAll() {
-        List<User> results = userRepository.getAll();
+        User petrov = GetEntity.getUser("PPetrov");
+        userRepository.save(petrov);
+        User ivanov = GetEntity.getUser("IIvanov");
+        userRepository.save(ivanov);
+        User sidorov = GetEntity.getUser("SSidorov");
+        userRepository.save(sidorov);
+        var pageable = PageRequest.of(0, 2, Sort.by("id"));
+        var results = userRepository.findAllBy(pageable);
 
-        assertThat(results).hasSize(3);
+        assertThat(results).hasSize(2);
 
         List<String> userNames = results.stream().map(User::getUsername).collect(toList());
-        assertThat(userNames).containsExactlyInAnyOrder("PPetrov", "IIvanov", "SSidorov");
+        assertThat(userNames).containsExactlyInAnyOrder("PPetrov", "IIvanov");
     }
 
     @Test
     void getByUsername() {
-        List<User> results = userRepository.getByUsername("PPetrov");
+        User petrov = GetEntity.getUser("APetrov");
+        userRepository.save(petrov);
+
+        List<User> results = userRepository.findByUsername("APetrov");
 
         assertThat(results).hasSize(1);
-        assertThat(results.get(0).getUsername()).isEqualTo("PPetrov");
+        assertThat(results.get(0).getUsername()).isEqualTo("APetrov");
     }
 
     @Test
     void getByTypeBuilding() {
-        List<User> results = userRepository.getByTypeBuilding(TypeBuilding.GF_RT_CS);
+        List<User> results = userRepository.findByTypeBuilding(TypeBuilding.GF_RT_CS);
 
         assertThat(results).hasSize(2);
 
