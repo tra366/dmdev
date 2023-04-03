@@ -52,7 +52,7 @@ class MatrixDaoIT extends IntegrationTestBase {
         sourceRepository.save(newMatrix.getSource());
         matrixRepository.save(newMatrix);
         newMatrix.setSqlQuery("newSqlQuery");
-        matrixRepository.update(newMatrix);
+        matrixRepository.save(newMatrix);
         entityManager.clear();
 
         Matrix actualMatrix = entityManager.find(Matrix.class, newMatrix.getId());

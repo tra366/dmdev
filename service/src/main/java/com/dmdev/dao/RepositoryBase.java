@@ -5,9 +5,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.EntityManager;
-import javax.persistence.criteria.CriteriaQuery;
 import java.io.Serializable;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -42,11 +40,11 @@ public class RepositoryBase<K extends Serializable, E extends BaseEntity<K>> imp
         return Optional.ofNullable(entityManger.find(clazz, id, properties));
     }
 
-    @Override
+/*    @Override
     public List<E> findAll() {
-        CriteriaQuery criteriaQuery = entityManger.getCriteriaBuilder().createQuery(clazz);
+        CriteriaQuery criteriaQuery = entityManger.getCriteriaBuilder().CREATEQuery(clazz);
         criteriaQuery.from(clazz);
         return entityManger.createQuery(criteriaQuery)
                 .getResultList();
-    }
+    }*/
 }

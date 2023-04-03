@@ -77,7 +77,7 @@ class SeriesDaoIT extends IntegrationTestBase {
         chartRepository.save(newSeries.getChart());
         seriesRepository.save(newSeries);
         newSeries.setName("newSeries_Renamed");
-        seriesRepository.update(newSeries);
+        seriesRepository.save(newSeries);
         entityManager.clear();
 
         Series actualSeries = entityManager.find(Series.class, newSeries.getId());
@@ -108,7 +108,7 @@ class SeriesDaoIT extends IntegrationTestBase {
 
     @Test
     void getAll() {
-        List<Series> results = seriesRepository.getAll();
+        List<Series> results = seriesRepository.findAll();
 
         assertThat(results).hasSize(6);
 
@@ -118,7 +118,7 @@ class SeriesDaoIT extends IntegrationTestBase {
 
     @Test
     void getByChartName() {
-        List<Series> results = seriesRepository.getByChartName("DynamicBuilding");
+        List<Series> results = seriesRepository.findByChartName("DynamicBuilding");
 
         assertThat(results).hasSize(2);
 
@@ -128,7 +128,7 @@ class SeriesDaoIT extends IntegrationTestBase {
 
     @Test
     void getByNameSeries() {
-        List<Series> results = seriesRepository.getByNameSeries(Arrays.asList("Plan", "PlanSmr"));
+        List<Series> results = seriesRepository.findByNameSeries(Arrays.asList("Plan", "PlanSmr"));
 
         assertThat(results).hasSize(3);
 

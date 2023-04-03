@@ -1,12 +1,7 @@
 package com.dmdev.dao;
 
 import com.dmdev.entity.Avt;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import javax.persistence.EntityManager;
-
-public class AvtRepository extends RepositoryBase<Integer, Avt> {
-
-    public AvtRepository(EntityManager entityManager) {
-        super(Avt.class, entityManager);
-    }
+public interface AvtRepository extends JpaRepository<Avt, Integer> {
 }

@@ -1,12 +1,6 @@
-db:
-  username: postgres
-  password: NVolga21
-  driver: PostgresDriver
-  url: bi_reports:5432
-  hosts: localhost,127.0.0.1
 logging:
   level:
-    root: INFO
+    root: DEBUG
   file:
     name: dmdev.log
     path: /
