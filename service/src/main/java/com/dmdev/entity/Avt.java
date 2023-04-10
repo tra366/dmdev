@@ -10,6 +10,8 @@ import lombok.ToString;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -34,6 +36,7 @@ public class Avt implements BaseEntity<Integer> {
     private Integer id;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private Resource resource;
 
     @Column(nullable = false)

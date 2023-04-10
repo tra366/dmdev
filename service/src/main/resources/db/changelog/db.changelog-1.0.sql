@@ -13,14 +13,13 @@
  */
 
 --changeset tra:1
--- DROP TABLE IF EXISTS source;
 create TABLE IF NOT EXISTS source
 (
     id SERIAL PRIMARY KEY,
     name VARCHAR(200) UNIQUE NOT NULL
 );
+--rollback DROP TABLE IF EXISTS source;
 --changeset tra:2
--- DROP TABLE IF EXISTS avt;
 create TABLE IF NOT EXISTS avt
 (
     id SERIAL PRIMARY KEY,
@@ -29,8 +28,8 @@ create TABLE IF NOT EXISTS avt
 	type VARCHAR(100) NOT NULL,
 	UNIQUE(resource, name)
 );
+--rollback DROP TABLE IF EXISTS avt;
 --changeset tra:3
--- DROP TABLE IF EXISTS user;
 create TABLE IF NOT EXISTS users
 (
     id SERIAL PRIMARY KEY,
@@ -40,8 +39,8 @@ create TABLE IF NOT EXISTS users
 	last_name VARCHAR(100),
 	role VARCHAR(20)
 );
+--rollback DROP TABLE IF EXISTS user;
 --changeset tra:4
--- DROP TABLE IF EXISTS chart;
 create TABLE IF NOT EXISTS chart
 (
     id SERIAL PRIMARY KEY,
@@ -55,22 +54,22 @@ create TABLE IF NOT EXISTS chart
 	myguid VARCHAR(50) NOT NULL,
 	actuality BOOLEAN DEFAULT TRUE
 );
+--rollback DROP TABLE IF EXISTS chart;
 --changeset tra:5
--- DROP TABLE IF EXISTS type_series;
 create TABLE IF NOT EXISTS type_series
 (
     id SERIAL PRIMARY KEY,
     name VARCHAR(200) UNIQUE NOT NULL
 );
+--rollback DROP TABLE IF EXISTS type_series;
 --changeset tra:6
--- DROP TABLE IF EXISTS name_series;
 create TABLE IF NOT EXISTS name_series
 (
     id SERIAL PRIMARY KEY,
     name VARCHAR(200) UNIQUE NOT NULL
 );
+--rollback DROP TABLE IF EXISTS name_series;
 --changeset tra:7
--- DROP TABLE IF EXISTS series;
 create TABLE IF NOT EXISTS series
 (
     id SERIAL PRIMARY KEY,
@@ -85,8 +84,8 @@ create TABLE IF NOT EXISTS series
 	visible BOOLEAN DEFAULT TRUE,
 	actuality BOOLEAN DEFAULT TRUE
 );
+--rollback DROP TABLE IF EXISTS series;
 --changeset tra:8
--- DROP TABLE IF EXISTS matrix;
 create TABLE IF NOT EXISTS matrix
 (
     id SERIAL PRIMARY KEY,
@@ -98,8 +97,8 @@ create TABLE IF NOT EXISTS matrix
 	name_series_id INT REFERENCES name_series(id),
 	sql_query TEXT NOT NULL
 );
+--rollback DROP TABLE IF EXISTS matrix;
 --changeset tra:9
--- DROP TABLE IF EXISTS av;
 create TABLE IF NOT EXISTS av
 (
     id BIGSERIAL PRIMARY KEY,
@@ -109,3 +108,4 @@ create TABLE IF NOT EXISTS av
 	value TEXT,
 	UNIQUE(avt_id, chart_id, series_id)
 );
+--rollback DROP TABLE IF EXISTS av;
