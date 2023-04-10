@@ -25,11 +25,11 @@ import javax.persistence.UniqueConstraint;
 @Builder
 @Entity
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"avt_id", "chart_id", "series_id"})})
-public class Av implements BaseEntity<Integer> {
+public class Av implements BaseEntity<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "avt_id")

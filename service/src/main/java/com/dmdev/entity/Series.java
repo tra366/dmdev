@@ -10,6 +10,8 @@ import lombok.ToString;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -45,6 +47,7 @@ public class Series implements BaseEntity<Integer> {
     private NameSeries nameSeries;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private PeriodReport periodReport;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)

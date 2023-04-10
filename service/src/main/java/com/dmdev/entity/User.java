@@ -37,7 +37,6 @@ public class User implements BaseEntity<Integer> {
     @Column(unique = true, nullable = false)
     private String username;
 
-
     @Builder.Default
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     private List<Chart> charts = new ArrayList<>();
