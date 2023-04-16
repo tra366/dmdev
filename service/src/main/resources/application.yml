@@ -6,9 +6,6 @@ logging:
     path: /
 spring:
   mvc:
-    view:
-      prefix: /WEB-INF/jsp/
-      suffix: .jsp
     format:
       date: iso
   datasource:

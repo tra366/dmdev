@@ -39,7 +39,7 @@ public class UserController {
     }
 
     @PostMapping
-    public String crete(@ModelAttribute UserCreateEditDto user) {
+    public String create(@ModelAttribute UserCreateEditDto user) {
         return "redirect:/users/" + userService.create(user).getId();
     }
 
