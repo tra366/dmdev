@@ -6,6 +6,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
+import org.hibernate.envers.RelationTargetAuditMode;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -28,7 +31,8 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "users", schema = "public")
-public class User implements BaseEntity<Integer> {
+@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+public class User extends AuditingEntity<Integer> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,6 +41,7 @@ public class User implements BaseEntity<Integer> {
     @Column(unique = true, nullable = false)
     private String username;
 
+    @NotAudited
     @Builder.Default
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     private List<Chart> charts = new ArrayList<>();

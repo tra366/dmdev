@@ -7,19 +7,22 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.history.RevisionRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer>,
-        FilterUserRepository {
+        FilterUserRepository,
+        RevisionRepository<User, Integer, Integer> {
 
     @Query(value = "select u from User u",
             countQuery = "select count(distinct u.username) from User u")
     Page<User> findAllBy(Pageable pageable);
 
-    List<User> findByUsername(String username);
+    Optional<User> findByUsername(String username);
 
     List<User> findByTypeBuilding(TypeBuilding typeBuilding);
 
