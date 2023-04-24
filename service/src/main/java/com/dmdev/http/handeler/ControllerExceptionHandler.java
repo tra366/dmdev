@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
 @ControllerAdvice(basePackages = "com.dmdev.http.controller")
-public class ControllerExceptionHandler /*extends ResponseEntityExceptionHandler*/ {
+public class ControllerExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public String handleExceptions(Exception exception, HttpServletRequest request) {

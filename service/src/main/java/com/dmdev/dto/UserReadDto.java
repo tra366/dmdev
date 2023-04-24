@@ -4,7 +4,7 @@ import com.dmdev.entity.Role;
 import lombok.Value;
 
 @Value
-public class UserReadDto extends BaseUser {
+public class UserReadDto {
     Integer id;
     String username;
     String firstname;

@@ -53,6 +53,7 @@ public class UserServiceIT extends IntegrationTestBase {
     void create() {
         UserCreateEditDto userCreateEditDto = new UserCreateEditDto(
                 "UserCreate",
+                "{noop}12345",
                 "FirstCreate",
                 "LastCreate",
                 Role.BUILDER
@@ -70,6 +71,7 @@ public class UserServiceIT extends IntegrationTestBase {
     void update() {
         UserCreateEditDto userCreateEditDto = new UserCreateEditDto(
                 "UserUpdate",
+                "{noop}12345",
                 "FirstUpdate",
                 "LastUpdate",
                 Role.BUILDER
