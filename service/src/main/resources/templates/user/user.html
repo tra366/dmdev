@@ -8,23 +8,23 @@
 <div th:insert="~{fragment :: header}"></div>
 <form th:action="@{/users/{userId}/update(userId=${user.id})}" enctype="multipart/form-data" method="post"
       th:object="${user}">
-    <label for="username">Username:
+    <label for="username"><span th:text="#{user.username}">Username:</span>
         <input id="username" type="text" name="username" th:value="*{username}">
     </label><br>
-    <label for="lastname">Lastname:
+    <label for="lastname"><span th:text="#{user.lastname}">Lastname:</span>
         <input id="lastname" type="text" name="lastname" th:value="*{lastname}">
     </label><br>
-    <label for="firstname">Firstname:
+    <label for="firstname"><span th:text="#{user.firstname}">Firstname:</span>
         <input id="firstname" type="text" name="firstname" th:value="*{firstname}">
     </label><br>
     <div th:each="role : ${roles}">
         <input th:id="${role}" type="radio" name="role" th:value="${role}" th:checked="${role == user.role}">
         <label th:for="${role}" th:text="${role}">Role name</label>
     </div>
-    <button type="submit">Update</button>
+    <button type="submit"><span th:text="#{user.update}">Update</span></button>
 </form>
 <form th:action="@{/users/{userId}/delete(userId=${user.id})}" th:if="${user.role.name() == 'ADMIN'}" method="post">
-    <button type="submit">Remove</button>
+    <button type="submit"><span th:text="#{user.remove}">Remove</span></button>
 </form>
 </body>
 </html>

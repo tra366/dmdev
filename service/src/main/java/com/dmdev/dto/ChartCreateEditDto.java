@@ -2,19 +2,24 @@ package com.dmdev.dto;
 
 import com.dmdev.entity.ObjectBuilding;
 import com.dmdev.entity.PeriodReport;
-import com.dmdev.entity.Source;
 import com.dmdev.entity.TypeBuilding;
 import com.dmdev.entity.TypeReport;
-import lombok.Builder;
+import com.dmdev.validation.group.CreateAction;
 import lombok.Value;
 
+import javax.validation.constraints.NotBlank;
+
 @Value
-@Builder
-public class ChartDto {
+public class ChartCreateEditDto {
     String name;
+    Integer ownerId;
     TypeReport typeReport;
     PeriodReport periodReport;
     ObjectBuilding objectBuilding;
     TypeBuilding typeBuilding;
-    Source source;
+    Integer sourceId;
+    @NotBlank(groups = CreateAction.class)
+    String myguid;
+    @NotBlank(groups = CreateAction.class)
+    String actuality;
 }

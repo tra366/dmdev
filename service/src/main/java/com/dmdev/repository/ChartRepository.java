@@ -1,6 +1,6 @@
 package com.dmdev.repository;
 
-import com.dmdev.dto.ChartDto;
+import com.dmdev.dto.ChartReadDto;
 import com.dmdev.entity.Chart;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -15,6 +15,6 @@ public interface ChartRepository extends JpaRepository<Chart, Integer>,
 
     List<Chart> findByNameSeries(String nameSeries);
 
-    List<Chart> findByParams(ChartDto chartDto);
+    List<Chart> findByParams(ChartReadDto chartDto);
 
 }

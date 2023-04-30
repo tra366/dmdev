@@ -1,7 +1,7 @@
 package com.dmdev.repository;
 
 import com.dmdev.GetEntity;
-import com.dmdev.dto.ChartDto;
+import com.dmdev.dto.ChartReadDto;
 import com.dmdev.entity.Chart;
 import com.dmdev.entity.ObjectBuilding;
 import com.dmdev.entity.PeriodReport;
@@ -122,7 +122,7 @@ class ChartDaoIT extends IntegrationTestBase {
 
     @Test
     void getByParams() {
-        ChartDto chartDto = ChartDto.builder()
+        ChartReadDto chartDto = ChartReadDto.builder()
                 .objectBuilding(ObjectBuilding.GF)
                 .periodReport(PeriodReport.WEEK)
                 .typeBuilding(TypeBuilding.GF_RT_CS)

@@ -6,9 +6,19 @@
 </head>
 <body>
 <div th:fragment="header">
-    <span th:text="${#authentication.principal.username}">Username</span>
+    <span th:text="${#authentication.principal.username}"><span th:text="#{user.username}">Username</span></span>
     <form action="/logout" method="post">
-        <button type="submit">Logout</button>
+        <button type="submit"><span th:text="#{login.logout}">Logout</span></button>
+    </form>
+    <div th:insert="~{fragment :: locale}"></div>
+</div>
+<div th:fragment="locale">
+    <form action="">
+        <select name="lang" onchange="this.form.submit()">
+            <option></option>
+            <option value="ru">RU</option>
+            <option value="en">EN</option>
+        </select>
     </form>
 </div>
 </body>
