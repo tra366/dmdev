@@ -1,6 +1,6 @@
 package com.dmdev.repository;
 
-import com.dmdev.dto.ChartDto;
+import com.dmdev.dto.ChartReadDto;
 import com.dmdev.entity.Chart;
 import com.dmdev.entity.Chart_;
 import com.dmdev.entity.NameSeries_;
@@ -18,7 +18,7 @@ public class FilterChartRepositoryImpl implements FilterChartRepository {
     private final EntityManager entityManager;
 
     @Override
-    public List<Chart> findByParams(ChartDto chartDto) {
+    public List<Chart> findByParams(ChartReadDto chartDto) {
         var cb = entityManager.getCriteriaBuilder();
 
         var criteria = cb.createQuery(Chart.class);
