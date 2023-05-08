@@ -33,8 +33,8 @@ public class ChartService{
     }
 
     @Transactional
-    public ChartReadDto create(ChartCreateEditDto userDto) {
-        return Optional.of(userDto)
+    public ChartReadDto create(ChartCreateEditDto chartDto) {
+        return Optional.of(chartDto)
                 .map(chartCreateEditMapper::map)
                 .map(chartRepository::save)
                 .map(chartReadMapper::map)
